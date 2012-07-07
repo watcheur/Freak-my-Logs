@@ -10,11 +10,11 @@ TARGET = my_wol
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        window.cpp \
-    logs.cpp
+SOURCES +=  main.cpp\
+            window.cpp \
+            logs.cpp
 
 HEADERS  += window.h \
-    logs.h
+            logs.h
 
 FORMS    += window.ui
