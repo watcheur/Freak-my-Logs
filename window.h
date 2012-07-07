@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QDir>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <list>
 #include <deque>
