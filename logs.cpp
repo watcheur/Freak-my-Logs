@@ -14,6 +14,8 @@ Logs::Logs(std::string filename)
 {
     std::string line;
     std::deque<std::string> args;
+
+    this->on_boss = false;
     this->filedes.open(filename.c_str(), std::ifstream::in);
     if (filedes.is_open())
     {
@@ -21,8 +23,12 @@ Logs::Logs(std::string filename)
         {
             getline(filedes, line);
             args = parse_log(line);
-            if (args[2] == "SPELL_AURA_APPLIED")
-                track_potions(args);
+            track_boss(args);
+            if (this->on_boss == true)
+            {
+                if (args[2] == "SPELL_AURA_APPLIED")
+                    track_potions(args);
+            }
         }
     }
     else
@@ -32,6 +38,36 @@ Logs::Logs(std::string filename)
 Logs::~Logs()
 {
     filedes.close();
+}
+
+void    Logs::track_boss(std::deque<std::string> args)
+{
+    t_boss  tab[] =
+    {
+        {"NULL", "NULL", "Morchok", "Morchok"},
+        {"NULL", "NULL", "Seigneur de guerre Zon’ozz", "Warlord Zon'ozz"},
+        {"NULL", "NULL", "Yor'sahj l’Insomniaque", "Yor'sahj the Unsleeping"},
+        {"NULL", "NULL", "Hagara la Lieuse des tempêtes", "Hagara the Stormbinder"},
+        {"NULL", "NULL", "Ultraxion", "Ultraxion"},
+        {"NULL", "NULL", "Maître de guerre Corne-Noire", "Warmaster Blackhorn"},
+        {"Tendons brûlants", "Burning Tendons", "Echinne d'Aile de Mort", "Spine of Deathwing"},
+        {"Tentacule d’aile", "Wing Tentacle", "Folie d'Aile de Mort", "Madness of Deathwing"},
+    };
+    int i;
+
+    for (i = 0; i <= 7; ++i)
+    {
+        if ((args[2].find("_DAMAGE") == std::string::npos) && (tab[i].specific_tracking_a == args[8] || tab[i].specific_tracking_b == args[8] || tab[i].name_fr == args[8] || tab[i].name_en == args[8]))
+        {
+            this->on_boss = true;
+            this->actual_boss = tab[i].name_fr;
+        }
+        if ((args[2].find("UNIT_DIED") == std::string::npos) && (tab[i].specific_tracking_a == args[4] || tab[i].specific_tracking_b == args[4] || tab[i].name_fr == args[4] || tab[i].name_en == args[4]))
+        {
+            this->on_boss = false;
+            this->actual_boss = "not on boss";
+        }
+    }
 }
 
 std::deque<std::string>    Logs::parse_log(std::string line)
@@ -65,6 +101,7 @@ std::deque<std::string>    Logs::parse_log(std::string line)
     return (ret);
 }
 
+/* POTION */
 void    Logs::track_potions(std::deque<std::string> args)
 {
     int idx = 0;
@@ -80,13 +117,8 @@ void    Logs::track_potions(std::deque<std::string> args)
 
     while (idx < 5)
     {
-        if (my_potions[idx].item_id == atoi(args[11].c_str()))
-            std::cout << args[4] << " a utilisé une potion " << my_potions[idx].type << std::endl;
+        if (my_potions[idx].item_id == atoi(args[11].c_str()) && this->on_boss == true)
+            std::cout << args[4] << " a utilisé une potion " << my_potions[idx].type << " sur le boss " << this->actual_boss << std::endl;
         idx++;
     }
-    /*
-    for (int i  = 0; i < (int)args.size(); ++i)
-        std::cout << args[i] << ",";
-    std::cout << std::endl;
-    */
 }
