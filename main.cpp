@@ -1,3 +1,11 @@
+/****************************************************************************
+ **
+ ** Copyright (C) 2012 Mathieu Moriceau
+ ** All rights reserved.
+ ** Contact: Watcheur (watcheur@orange.fr)
+ **
+ ****************************************************************************/
+
 #include <QApplication>
 #include "window.h"
 

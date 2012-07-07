@@ -1,3 +1,11 @@
+/****************************************************************************
+ **
+ ** Copyright (C) 2012 Mathieu Moriceau
+ ** All rights reserved.
+ ** Contact: Watcheur (watcheur@orange.fr)
+ **
+ ****************************************************************************/
+
 #include <QtGui>
 #include "window.h"
 #include "logs.h"
@@ -24,11 +32,11 @@ Boss::t_boss  tab[] =
 
 Potion::t_potion    my_potions[] =
 {
-    {79633, "Tol'vir - Agility"},
-    {79634, "Golemblood - Strength"},
-    {79476, "Volcanic - Intel"},
-    {78993, "Concentration - Mana"},
-    {79475, "Earthen - Armor"},
+    {AGILITY_POTION, "Tol'vir - Agility"},
+    {STRENGTH_POTION, "Golemblood - Strength"},
+    {INTEL_POTION, "Volcanic - Intel"},
+    {REGEN_POTION, "Concentration - Mana"},
+    {ARMOR_POTION, "Earthen - Armor"},
     {0, ""},
 };
 
