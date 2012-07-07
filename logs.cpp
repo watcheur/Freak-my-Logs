@@ -2,8 +2,6 @@
 #include "window.h"
 #include "logs.h"
 
-int ji = 1;
-
 // 12/28 21:02:23.629  SPELL_AURA_APPLIED,0x0680000002F548FA,"Rhogar",0x511,0x0,0x0680000002F548FA,"Rhogar",0x511,0x0,79633,"Agilit des Tol'vir",0x10,BUFF
 
 // 79633 - Tol'vir - Agility
@@ -12,7 +10,7 @@ int ji = 1;
 // 78993 - Concentration - Mana
 // 79475 - Earthen - Armor
 
-t_boss  tab[] =
+Boss::t_boss  tab[] =
 {
     {"NULL", "Kohcrom", "Morchok", "Morchok"},
     {"NULL", "NULL", "Seigneur de guerre Zon’ozz", "Warlord Zon'ozz"},
@@ -24,7 +22,7 @@ t_boss  tab[] =
     {"NULL", "Aile de Mort", "Folie d'Aile de Mort", "Madness of Deathwing"},
 };
 
-t_potion    my_potions[] =
+Potion::t_potion    my_potions[] =
 {
     {79633, "Tol'vir - Agility"},
     {79634, "Golemblood - Strength"},
@@ -145,20 +143,19 @@ std::string    Logs::track_potions(std::deque<std::string> args)
         if (my_potions[idx].item_id == atoi(args[11].c_str()))
         {
             if (this->on_boss == true)
-                ret << ji << ": " << args[4] << " a utilisé une potion " << my_potions[idx].type << " sur le boss " << this->actual_boss << ".";
+                ret << args[4] << " a utilisé une potion " << my_potions[idx].type << " sur le boss " << this->actual_boss << ".";
             else
-                ret << ji << ": " << args[4] << " a prepote " << my_potions[idx].type << ".";
-            ji++;
+                ret << args[4] << " a prepote " << my_potions[idx].type << ".";
 
-            if (my_potions[idx].item_id == my_potions[AGILITY].item_id)
+            if (my_potions[idx].item_id == my_potions[Potion::AGILITY].item_id)
                 this->agility.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[STRENGTH].item_id)
+            else if (my_potions[idx].item_id == my_potions[Potion::STRENGTH].item_id)
                 this->strength.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[INTEL].item_id)
+            else if (my_potions[idx].item_id == my_potions[Potion::INTEL].item_id)
                 this->intelligence.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[MANA].item_id)
+            else if (my_potions[idx].item_id == my_potions[Potion::MANA].item_id)
                 this->mana.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[ARMOR].item_id)
+            else if (my_potions[idx].item_id == my_potions[Potion::ARMOR].item_id)
                 this->armor.push_back(args[4]);
             if (count(this->players.begin(), this->players.end(), args[4]) == 0)
                 this->players.push_back(args[4]);

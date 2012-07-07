@@ -4,26 +4,8 @@
 #include "window.h"
 #include <QMainWindow>
 
-enum    dragon_soul_boss {
-    MORCHOK = 0,
-    ZONOZZ,
-    YORSAHJ,
-    HAGARA,
-    ULTRAXION,
-    BLACKHORN,
-    SPINE,
-    MADNESS
-};
-
-enum    potion_type {
-    AGILITY = 0,
-    STRENGTH,
-    INTEL,
-    MANA,
-    ARMOR
-};
-
 // UnitFlag bitfield
+// See: http://www.wowpedia.org/UnitFlag
 namespace UnitFLags {
     #define COMBATLOG_OBJECTT_TYPE_MASK             0x0000FC00
     #define COMBATLOG_OBJECTT_TYPE_OBJECT           0x00004000
@@ -60,24 +42,56 @@ namespace UnitFLags {
 }
 
 // Boss tracking
-typedef struct  s_boss {
-    std::string specific_tracking_a;
-    std::string specific_tracking_b;
-    std::string name_fr;
-    std::string name_en;
-}               t_boss;
+namespace Boss {
+    typedef struct  s_boss {
+        std::string specific_tracking_a;
+        std::string specific_tracking_b;
+        std::string name_fr;
+        std::string name_en;
+    }               t_boss;
+
+    // Dragon Soul Boss
+    namespace DragonSoul {
+        enum    Boss {
+            MORCHOK = 0,
+            ZONOZZ,
+            YORSAHJ,
+            HAGARA,
+            ULTRAXION,
+            BLACKHORN,
+            SPINE,
+            MADNESS
+        };
+    }
+}
 
 // Potion tracking
-typedef struct  s_potion {
-    int item_id;
-    std::string type;
-}               t_potion;
+namespace Potion {
+    typedef struct  s_potion {
+        int item_id;
+        std::string type;
+    }               t_potion;
 
-typedef struct  s_used {
-    int type;
-    std::string name;
-    std::string boss;
-}               t_used;
+    enum    potion_type {
+        AGILITY = 0,
+        STRENGTH,
+        INTEL,
+        MANA,
+        ARMOR
+    };
+
+    #define AGILITY_POTION  79633// - Tol'vir - Agility
+    #define STRENGTH_POTION 79634// - Golemblood - Strength
+    #define INTEL_POTION    79476// - Volcanic - Intel
+    #define REGEN_POTION    78993// - Concentration - Mana
+    #define ARMOR_POTION    79475// - Earthen - Armor
+
+    typedef struct  s_used {
+        int type;
+        std::string name;
+        std::string boss;
+    }               t_used;
+}
 
 class Logs : public Window
 {
@@ -109,8 +123,6 @@ private:
     std::deque<std::string> intelligence;
     std::deque<std::string> mana;
     std::deque<std::string> armor;
-
-    std::deque<t_used>  potion_track;
 
     // Death tracking
 
