@@ -14,12 +14,15 @@
 
 // UnitFlag bitfield
 // See: http://www.wowpedia.org/UnitFlag
+#define PLAYER_IN_MY_RAID                       0xFFFF0802
+
 #define COMBATLOG_OBJECTT_TYPE_MASK             0x0000FC00
 #define COMBATLOG_OBJECTT_TYPE_OBJECT           0x00004000
 #define COMBATLOG_OBJECTT_TYPE_GUARDIAN         0x00002000
 #define COMBATLOG_OBJECTT_TYPE_PET              0x00001000
 #define COMBATLOG_OBJECTT_TYPE_NPC              0x00000800
 #define COMBATLOG_OBJECTT_TYPE_PLAYER           0x00000400
+
 #define COMBATLOG_OBJECTT_CONTROL_MASK          0x00000300
 #define COMBATLOG_OBJECTT_CONTROL_NPC           0x00000200
 #define COMBATLOG_OBJECTT_CONTROL_PLAYER        0x00000100
@@ -32,6 +35,7 @@
 #define COMBATLOG_OBJECTT_AFFILIATION_RAID      0x00000004
 #define COMBATLOG_OBJECTT_AFFILIATION_PARTY     0x00000002
 #define COMBATLOG_OBJECTT_AFFILIATION_MINE      0x00000001
+
 #define COMBATLOG_OBJECTT_SPECIAL_MASK          0xFFFF0000
 #define COMBATLOG_OBJECTT_NONE                  0x80000000
 #define COMBATLOG_OBJECTT_RAIDTARGET8           0x08000000
@@ -49,26 +53,26 @@
 
 // Boss tracker
 namespace Boss {
-    typedef struct  s_boss {
-        std::string specific_tracking_a;
-        std::string specific_tracking_b;
-        std::string name_fr;
-        std::string name_en;
-    }               t_boss;
+typedef struct  s_boss {
+    std::string specific_tracking_a;
+    std::string specific_tracking_b;
+    std::string name_fr;
+    std::string name_en;
+}               t_boss;
 
-    // Dragon Soul Boss
-    namespace DragonSoul {
-        enum    Boss {
-            MORCHOK = 0,
-            ZONOZZ,
-            YORSAHJ,
-            HAGARA,
-            ULTRAXION,
-            BLACKHORN,
-            SPINE,
-            MADNESS
-        };
-    }
+// Dragon Soul Boss
+namespace DragonSoul {
+enum    Boss {
+    MORCHOK = 0,
+    ZONOZZ,
+    YORSAHJ,
+    HAGARA,
+    ULTRAXION,
+    BLACKHORN,
+    SPINE,
+    MADNESS
+};
+}
 }
 
 // Potion tracker
@@ -98,14 +102,42 @@ namespace Potion {
 
 // Class du Parser
 // Hérite de la classe qui gère l'application
-class Logs : public Window
+class Logs : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit Logs(std::string filename);    // Constructeur
+    explicit Logs(std::string filename, QWidget *parent = 0);    // Constructeur
     ~Logs();    // Destructeur
-    
+
+    // Interface
+    void createFilesTable();
+
+    // Parser
+    std::deque<std::string> parse_log(std::string line);    // Parser ligne par ligne du combatlog
+    std::string get_args(const char *content, int *pos);    // Parser des arguments des lignes du combatlog
+
+    void potion_resum();                                    // Récapitulatif des potions en fonction du type
+    std::string track_potions(std::deque<std::string>);     // Tracker des potions utilisés en raid
+
+    void    track_boss(std::deque<std::string> args);       // Tracker du boss actuel (Pull / Mort)
+
+private slots:
+    void launch_parse();                // Lancement du parser
+
 private:
+    // Interface
+    std::string     filename;
+    QPushButton     *createButton(const QString &text, const char *member);
+    QGridLayout     *parseLayout;
+    QPushButton     *parseButton;
+
+    QLabel          *bossLabel;
+    QLineEdit       *trackedBoss;
+
+    QLabel          *spellsLabel;
+    QLineEdit       *trackedSpells;
+
     // Boss Variables
     bool            on_boss;        // Un boss est-il en cours ? (True / False)
     std::string     actual_boss;    // Quel est le nom du boss ?
@@ -123,21 +155,7 @@ private:
     std::deque<std::string> intelligence;   // Joueurs ayant utilisé une potion d'intelligence
     std::deque<std::string> mana;           // Joueurs ayant utilisé une potion de mana
     std::deque<std::string> armor;          // Joueurs ayant utilisé une potion d'armure
-
-    // Parser Functions
-    std::deque<std::string> parse_log(std::string line);    // Parser ligne par ligne du combatlog
-    std::string get_args(const char *content, int *pos);    // Parser des arguments des lignes du combatlog
-
-    // Boss tracker functions
-    void    track_boss(std::deque<std::string> args);       // Tracker du boss actuel (Pull / Mort)
-
-    // Potions tracker functions
-    std::string track_potions(std::deque<std::string>);     // Tracker des potions utilisés en raid
-    void potion_resum();                                    // Récapitulatif des potions en fonction du type
-
-    // Death tracker functions
-
-    // Rez tracker functions
+    std::deque<std::string> prepote;         // Joueurs ayant prépote (Quelque soit la potion)
 };
 
 #endif // LOGS_H

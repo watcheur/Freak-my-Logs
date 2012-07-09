@@ -13,6 +13,7 @@
 #include <QGridLayout>
 #include <QDialog>
 #include <QDir>
+#include <QLineEdit>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -41,12 +42,12 @@ private slots:
     // Second Step - Load logs
     void load_logs(std::string filename);
 
-protected:
+private:
     QStringList findFiles(const QStringList &files, const QString &text);
     void showFiles(const QStringList &files);
-    QPushButton *createButton(const QString &text, const char *member);
     QComboBox *createComboBox(const QString &text = QString());
     void createFilesTable();
+    QPushButton *createButton(const QString &text, const char *member);
 
     QComboBox *fileComboBox;
     QComboBox *textComboBox;

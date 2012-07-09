@@ -10,8 +10,7 @@
 #include "window.h"
 #include "logs.h"
 
-Window::Window(QWidget *parent)
-    : QDialog(parent)
+Window::Window(QWidget *parent) : QDialog(parent)
 {
     browseButton = createButton(tr("&Browse..."), SLOT(browse()));
     findButton = createButton(tr("&Find"), SLOT(find()));
@@ -204,6 +203,7 @@ void Window::clear_layout()
 void Window::load_logs(std::string filename)
 {
     (void)filename;
+    this->hide();
     this->clear_layout();
 
     new Logs(filename);
