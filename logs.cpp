@@ -18,28 +18,6 @@
 // 78993 - Concentration - Mana
 // 79475 - Earthen - Armor
 
-Boss::t_boss  tab[] =
-{
-    {"NULL", "Kohcrom", "Morchok", "Morchok"},
-    {"NULL", "NULL", "Seigneur de guerre Zon’ozz", "Warlord Zon'ozz"},
-    {"NULL", "NULL", "Yor'sahj l’Insomniaque", "Yor'sahj the Unsleeping"},
-    {"NULL", "NULL", "Hagara la Lieuse des tempêtes", "Hagara the Stormbinder"},
-    {"NULL", "NULL", "Ultraxion", "Ultraxion"},
-    {"NULL", "NULL", "Maître de guerre Corne-Noire", "Warmaster Blackhorn"},
-    {"NULL", "Aile de mort", "Echine d'Aile de Mort", "Spine of Deathwing"},
-    {"NULL", "Aile de mort", "Folie d'Aile de Mort", "Madness of Deathwing"},
-};
-
-Potion::t_potion    my_potions[] =
-{
-    {AGILITY_POTION, "Tol'vir - Agility"},
-    {STRENGTH_POTION, "Golemblood - Strength"},
-    {INTEL_POTION, "Volcanic - Intel"},
-    {REGEN_POTION, "Concentration - Mana"},
-    {ARMOR_POTION, "Earthen - Armor"},
-    {0, ""},
-};
-
 /*****************************
            INTERFACE
 *****************************/
@@ -50,14 +28,16 @@ Logs::Logs(std::string filename, QWidget *parent) : QDialog(parent)
     QHBoxLayout *spellsLayout = new QHBoxLayout;
     QGridLayout *secondLayout = new QGridLayout;
 
+    QLabel  *fileinfo = new QLabel(tr("<strong>Logs</strong>: ") + filename.c_str());
     this->filename = filename;
     parseLayout = new QGridLayout;
 
-    this->bossLabel = new QLabel(tr("Boss:"));
-    this->trackedBoss = new QLineEdit("Test1;Test2");
+    this->bossLabel = new QLabel(tr("<strong>Boss</strong>:"));
+    this->trackedBoss = new QLineEdit("Morchok,Ultraxion,Hagara");
 
-    this->spellsLabel = new QLabel(tr("Spells:"));
-    this->trackedSpells = new QLineEdit("4242;4243");
+    this->spellsLabel = new QLabel(tr("<strong>Spells</strong>:"));
+    this->trackedSpells = new QLineEdit(trUtf8("42-TROP FORT,43-TROP NUL"));
+
     this->parseButton = createButton(tr("&Parse"), SLOT(launch_parse()));
 
     bossLayout->addWidget(bossLabel);
@@ -66,9 +46,10 @@ Logs::Logs(std::string filename, QWidget *parent) : QDialog(parent)
     spellsLayout->addWidget(spellsLabel);
     spellsLayout->addWidget(trackedSpells);
 
-    parseLayout->addWidget(parseButton, 2, 2);
-    parseLayout->addLayout(bossLayout, 0, 0);
-    parseLayout->addLayout(spellsLayout, 1, 0);
+    parseLayout->addWidget(fileinfo, 0, 0);
+    parseLayout->addWidget(parseButton, 3, 3);
+    parseLayout->addLayout(bossLayout, 1, 0);
+    parseLayout->addLayout(spellsLayout, 2, 0);
 
     secondLayout->addLayout(parseLayout, 0, 0);
 
@@ -94,72 +75,109 @@ QPushButton *Logs::createButton(const QString &text, const char *member)
             PARSER
 *****************************/
 
+void Logs::parse_spells_id(std::string line)
+{
+    int idx = 0;
+    int pos = 0;
+    char id[MAX_ID];
+
+    while ((int)line.size() >= pos)
+    {
+        if (line.c_str()[pos] == '-')
+        {
+            this->spells_id.push_back(atoi(id));
+            memset(&id, '\0', MAX_ID);
+            idx = 0;
+        }
+        if (line.c_str()[pos] >= '0' && line.c_str()[pos] <= '9')
+        {
+            id[idx] = line.c_str()[pos];
+            idx++;
+        }
+        pos++;
+    }
+}
+
+void Logs::parse_spells_name(std::string line)
+{
+    int idx = 0;
+    int pos = 0;
+    char name[255];
+
+    memset(&name, '\0', 255);
+    while ((int)line.size() >= pos)
+    {
+        if (line.c_str()[pos] == '-')
+        {
+            pos += 1;
+            while (line.c_str()[pos] != ',')
+            {
+                name[idx] = line.c_str()[pos];
+                idx++;
+                pos++;
+            }
+            this->spells_name.push_back(std::string(name));
+            memset(&name, '\0', 255);
+            idx = 0;
+        }
+        pos++;
+    }
+}
+
+void Logs::parse_boss_name(std::string line)
+{
+    int idx = 0;
+    int pos = 0;
+    char name[255];
+
+    memset(&name, '\0', 255);
+    while ((int)line.size() >= pos)
+    {
+        if (line.c_str()[pos] == ',' || line.c_str()[pos] == 0)
+        {
+            this->boss_name.push_back(std::string(name));
+            memset(&name, '\0', 255);
+            idx = 0;
+            pos += 1;
+        }
+        name[idx] = line.c_str()[pos];
+        pos++;
+        idx++;
+    }
+}
+
 void    Logs::launch_parse()
 {
+    parse_spells_id(this->trackedSpells->text().toStdString());
+    parse_spells_name(this->trackedSpells->text().toStdString());
+    parse_boss_name(this->trackedBoss->text().toStdString());
+
+    for (int i = 0; (int)this->spells_id.size() > i; ++i)
+        std::cout << this->spells_id[i] << " - " << this->spells_name[i] << std::endl;
+
+    for (int j = 0; (int)this->boss_name.size() > j; ++j)
+        std::cout << this->boss_name[j] << std::endl;
+    return;
     std::string line;
     std::deque<std::string> args;
 
-    this->on_boss = false;
-    this->actual_boss = "NO BOSS";
-    this->filedes.open(filename.c_str(), std::ifstream::in);
+    this->filedes.open(this->filename.c_str(), std::ifstream::in);
     if (filedes.is_open())
     {
         while (filedes.good())
         {
             getline(filedes, line);
             args = parse_log(line);
-            track_boss(args);
-
-            // <----------->
-            // Special track
-            bool spine = false;
-            if (args.size() > 12 && args[2] == "SPELL_AURA_APPLIED" && atoi(args[11].c_str()) == 110660 && spine == false)
-            {
-                this->actual_boss = "Echine d'Aile de Mort";
-                this->boss_logs.push_back("\n----> Echine d'Aile de Mort ENGAGED <----\n");
-                this->on_boss = true;
-                spine = true;
-            }
-            // <----------->
-
-            if (args[2] == "SPELL_AURA_APPLIED")
-                this->boss_logs.push_back(track_potions(args));
             line.clear();
         }
     }
     else
         std::cout << "Unable to open file" << filename << std::endl;
-
-    for (int j = 0; j < (int)this->boss_logs.size(); ++j)
-    {
-        if (this->boss_logs[j] != "")
-            std::cout << this->boss_logs[j] << std::endl;
-    }
-    this->potion_resum();
 }
 
 void    Logs::track_boss(std::deque<std::string> args)
 {
-    int i = 0;
 
-    for (i = 0; i <= 7; ++i)
-    {
-        if (args.size() >= 8)
-        {
-            if (this->on_boss == false && (args[2].find("_DAMAGE") != std::string::npos) && (tab[i].specific_tracking_a == args[8] || tab[i].specific_tracking_b == args[8] || tab[i].name_fr == args[8] || tab[i].name_en == args[8]))
-            {
-                this->on_boss = true;
-                this->actual_boss = tab[i].name_fr;
-                this->boss_logs.push_back("\n----> " + tab[i].name_fr + " ENGAGED <----\n");
-            }
-            else if (this->on_boss == true && (args[2].find("_DIED") != std::string::npos) && (tab[i].specific_tracking_a == args[8] || tab[i].specific_tracking_b == args[8] || tab[i].name_fr == args[8] || tab[i].name_en == args[8]))
-            {
-                this->on_boss = false;
-                this->actual_boss = "NO BOSS";
-                this->boss_logs.push_back("\n----> " + tab[i].name_fr + " DIED <----\n");
-            }
-        }
-    }
 }
 
 std::deque<std::string>    Logs::parse_log(std::string line)
@@ -196,74 +214,13 @@ std::deque<std::string>    Logs::parse_log(std::string line)
     return (ret);
 }
 
-/* POTION */
-std::string    Logs::track_potions(std::deque<std::string> args)
+/* SPELL */
+std::string    Logs::track_spell(std::deque<std::string> args)
 {
-    std::stringstream ret;
-    int idx = 0;
-
-    ret << "";
-    while (idx < 5)
-    {
-        if (my_potions[idx].item_id == atoi(args[11].c_str()))
-        {
-            if (this->on_boss == true)
-                ret << args[4] << " a utilisé une potion " << my_potions[idx].type << " sur le boss " << this->actual_boss << ".";
-            else
-            {
-                ret << args[4] << " a prepote " << my_potions[idx].type << ".";
-                this->prepote.push_back(args[4]);
-            }
-
-            if (my_potions[idx].item_id == my_potions[Potion::AGILITY].item_id)
-                this->agility.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[Potion::STRENGTH].item_id)
-                this->strength.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[Potion::INTEL].item_id)
-                this->intelligence.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[Potion::MANA].item_id)
-                this->mana.push_back(args[4]);
-            else if (my_potions[idx].item_id == my_potions[Potion::ARMOR].item_id)
-                this->armor.push_back(args[4]);
-            if (count(this->players.begin(), this->players.end(), args[4]) == 0)
-                this->players.push_back(args[4]);
-        }
-        idx++;
-    }
-    return (ret.str());
+    return("YEAH");
 }
 
 void    Logs::potion_resum()
 {
-    int i = 0;
 
-    for (i = 0; i < (int)this->players.size(); ++i)
-    {
-        std::cout << this->players[i] << ":" << std::endl;
-
-        // Agi
-        if (count(this->agility.begin(), this->agility.end(), this->players[i]) > 0)
-            std::cout << "Agilité: " << ": " << count(this->agility.begin(), this->agility.end(), this->players[i]) << std::endl;
-
-        // Force
-        if (count(this->strength.begin(), this->strength.end(), this->players[i]) > 0)
-            std::cout << "Force: " << ": " << count(this->strength.begin(), this->strength.end(), this->players[i]) << std::endl;
-
-        // Intel
-        if (count(this->intelligence.begin(), this->intelligence.end(), this->players[i]) > 0)
-            std::cout << "Intelligence: " << ": " << count(this->intelligence.begin(), this->intelligence.end(), this->players[i]) << std::endl;
-
-        // Regen
-        if (count(this->mana.begin(), this->mana.end(), this->players[i]) > 0)
-            std::cout << "Regen: " << ": " << count(this->mana.begin(), this->mana.end(), this->players[i]) << std::endl;
-
-        // Armure
-        if (count(this->armor.begin(), this->armor.end(), this->players[i]) > 0)
-            std::cout << "Armure: " << ": " << count(this->armor.begin(), this->armor.end(), this->players[i]) << std::endl;
-
-        // Prépote
-        if (count(this->prepote.begin(), this->prepote.end(), this->players[i]) > 0)
-            std::cout << "Prépote: " << ": " << count(this->prepote.begin(), this->prepote.end(), this->players[i]) << std::endl;
-        std::cout << std::endl;
-    }
 }

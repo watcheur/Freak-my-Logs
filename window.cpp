@@ -202,9 +202,9 @@ void Window::clear_layout()
 
 void Window::load_logs(std::string filename)
 {
-    (void)filename;
-    this->hide();
-    this->clear_layout();
+    //(void)filename;
+    //this->hide();
+    //this->clear_layout();
 
     new Logs(filename);
 }

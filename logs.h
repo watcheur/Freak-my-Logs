@@ -12,6 +12,9 @@
 #include "window.h"
 #include <QMainWindow>
 
+#define UPPERCASE(c) (('a' <= (c) && (c) <= 'z') ? ((x - 'a') + 'A') : (c))
+#define MAX_ID  10
+
 // UnitFlag bitfield
 // See: http://www.wowpedia.org/UnitFlag
 #define PLAYER_IN_MY_RAID                       0xFFFF0802
@@ -51,79 +54,31 @@
 #define COMBATLOG_OBJECTT_FOCUS                 0x00020000
 #define COMBATLOG_OBJECTT_TARGET                0x00010000
 
-// Boss tracker
-namespace Boss {
-typedef struct  s_boss {
-    std::string specific_tracking_a;
-    std::string specific_tracking_b;
-    std::string name_fr;
-    std::string name_en;
-}               t_boss;
-
-// Dragon Soul Boss
-namespace DragonSoul {
-enum    Boss {
-    MORCHOK = 0,
-    ZONOZZ,
-    YORSAHJ,
-    HAGARA,
-    ULTRAXION,
-    BLACKHORN,
-    SPINE,
-    MADNESS
-};
-}
-}
-
-// Potion tracker
-namespace Potion {
-    // Define pouvant être utile
-    #define AGILITY_POTION  79633 // ID du spell de la potion d'agilité
-    #define STRENGTH_POTION 79634 // ID du spell de la potion de force
-    #define INTEL_POTION    79476 // ID du spell de la potion d'intelligence
-    #define REGEN_POTION    78993 // ID du spell de la potion de regen mana
-    #define ARMOR_POTION    79475 // ID du spell de la potion d'armure
-
-    // Structure pour la création d'un tableau avec les ID et les noms de potions
-    typedef struct  s_potion {
-        int item_id;
-        std::string type;
-    }               t_potion;
-
-    // Enum des différents type de potions dans la structure (voir ci-dessus)
-    enum    potion_type {
-        AGILITY = 0,
-        STRENGTH,
-        INTEL,
-        MANA,
-        ARMOR
-    };
-}
-
-// Class du Parser
-// Hérite de la classe qui gère l'application
 class Logs : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Logs(std::string filename, QWidget *parent = 0);    // Constructeur
-    ~Logs();    // Destructeur
+    explicit Logs(std::string filename, QWidget *parent = 0);
+    ~Logs();
 
     // Interface
     void createFilesTable();
 
     // Parser
-    std::deque<std::string> parse_log(std::string line);    // Parser ligne par ligne du combatlog
-    std::string get_args(const char *content, int *pos);    // Parser des arguments des lignes du combatlog
+    std::deque<std::string> parse_log(std::string line);
+    std::string get_args(const char *content, int *pos);
+    void parse_spells_id(std::string line);
+    void parse_spells_name(std::string line);
+    void parse_boss_name(std::string line);
 
-    void potion_resum();                                    // Récapitulatif des potions en fonction du type
-    std::string track_potions(std::deque<std::string>);     // Tracker des potions utilisés en raid
+    void potion_resum();
+    std::string track_spell(std::deque<std::string>);
 
-    void    track_boss(std::deque<std::string> args);       // Tracker du boss actuel (Pull / Mort)
+    void    track_boss(std::deque<std::string> args);
 
 private slots:
-    void launch_parse();                // Lancement du parser
+    void launch_parse();
 
 private:
     // Interface
@@ -138,24 +93,18 @@ private:
     QLabel          *spellsLabel;
     QLineEdit       *trackedSpells;
 
-    // Boss Variables
-    bool            on_boss;        // Un boss est-il en cours ? (True / False)
-    std::string     actual_boss;    // Quel est le nom du boss ?
-    std::deque<std::string>    boss_logs;   // Logs des différents boss, démarre avec: _name engaged finit par _name died.
+    // Parser
+    std::ifstream   filedes;
 
-    // Parser Variables
-    std::ifstream   filedes;        // File descriptor du combatlog
+    // Players
+    std::deque<std::string> players;
 
-    // Players Variables
-    std::deque<std::string>  players;   //  Joueurs présents dans le raid
+    // Boss
+    std::deque<std::string> boss_name;
 
-    // Potion Variables
-    std::deque<std::string> agility;        // Joueurs ayant utilisé une potion d'agilité
-    std::deque<std::string> strength;       // Joueurs ayant utilisé une potion de force
-    std::deque<std::string> intelligence;   // Joueurs ayant utilisé une potion d'intelligence
-    std::deque<std::string> mana;           // Joueurs ayant utilisé une potion de mana
-    std::deque<std::string> armor;          // Joueurs ayant utilisé une potion d'armure
-    std::deque<std::string> prepote;         // Joueurs ayant prépote (Quelque soit la potion)
+    // Spells
+    std::deque<int> spells_id;
+    std::deque<std::string> spells_name;
 };
 
 #endif // LOGS_H
