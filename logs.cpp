@@ -33,10 +33,10 @@ Logs::Logs(std::string filename, QWidget *parent) : QDialog(parent)
     parseLayout = new QGridLayout;
 
     this->bossLabel = new QLabel(tr("<strong>Boss</strong>:"));
-    this->trackedBoss = new QLineEdit("Morchok,Ultraxion,Hagara");
+    this->trackedBoss = new QLineEdit("");
 
     this->spellsLabel = new QLabel(tr("<strong>Spells</strong>:"));
-    this->trackedSpells = new QLineEdit(trUtf8("42-TROP FORT,43-TROP NUL"));
+    this->trackedSpells = new QLineEdit(trUtf8(""));
 
     this->parseButton = createButton(tr("&Parse"), SLOT(launch_parse()));
 
@@ -83,7 +83,7 @@ void Logs::parse_spells_id(std::string line)
 
     while ((int)line.size() >= pos)
     {
-        if (line.c_str()[pos] == '-')
+        if (line.c_str()[pos] == ',' || line.c_str()[pos] == 0)
         {
             this->spells_id.push_back(atoi(id));
             memset(&id, '\0', MAX_ID);
@@ -93,32 +93,6 @@ void Logs::parse_spells_id(std::string line)
         {
             id[idx] = line.c_str()[pos];
             idx++;
-        }
-        pos++;
-    }
-}
-
-void Logs::parse_spells_name(std::string line)
-{
-    int idx = 0;
-    int pos = 0;
-    char name[255];
-
-    memset(&name, '\0', 255);
-    while ((int)line.size() >= pos)
-    {
-        if (line.c_str()[pos] == '-')
-        {
-            pos += 1;
-            while (line.c_str()[pos] != ',')
-            {
-                name[idx] = line.c_str()[pos];
-                idx++;
-                pos++;
-            }
-            this->spells_name.push_back(std::string(name));
-            memset(&name, '\0', 255);
-            idx = 0;
         }
         pos++;
     }
@@ -148,18 +122,12 @@ void Logs::parse_boss_name(std::string line)
 
 void    Logs::launch_parse()
 {
-    parse_spells_id(this->trackedSpells->text().toStdString());
-    parse_spells_name(this->trackedSpells->text().toStdString());
-    parse_boss_name(this->trackedBoss->text().toStdString());
-
-    for (int i = 0; (int)this->spells_id.size() > i; ++i)
-        std::cout << this->spells_id[i] << " - " << this->spells_name[i] << std::endl;
-
-    for (int j = 0; (int)this->boss_name.size() > j; ++j)
-        std::cout << this->boss_name[j] << std::endl;
-    return;
     std::string line;
     std::deque<std::string> args;
+
+    this->on_boss = false;
+    parse_spells_id(this->trackedSpells->text().toStdString());
+    parse_boss_name(this->trackedBoss->text().toStdString());
 
     this->filedes.open(this->filename.c_str(), std::ifstream::in);
     if (filedes.is_open())
@@ -168,16 +136,16 @@ void    Logs::launch_parse()
         {
             getline(filedes, line);
             args = parse_log(line);
+            track_boss(args);
+            track_spell(args);
             line.clear();
         }
     }
     else
         std::cout << "Unable to open file" << filename << std::endl;
-}
 
-void    Logs::track_boss(std::deque<std::string> args)
-{
-
+    for (int i = 0; (int)this->logs.size() > i; ++i)
+        std::cout << this->logs[i] << std::endl;
 }
 
 std::deque<std::string>    Logs::parse_log(std::string line)
@@ -214,10 +182,53 @@ std::deque<std::string>    Logs::parse_log(std::string line)
     return (ret);
 }
 
-/* SPELL */
-std::string    Logs::track_spell(std::deque<std::string> args)
+/* BOSS */
+
+void    Logs::track_boss(std::deque<std::string> args)
 {
-    return("YEAH");
+    if (args.size() > 8)
+    {
+        if (this->on_boss == false && (args[2].find("_DAMAGE") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[8]) >= 1)
+        {
+            this->actual_boss = args[8];
+            this->on_boss = true;
+            std::cout << args[8] + " engaged" << std::endl;
+            this->logs.push_back(args[8] + " engaged");
+        }
+
+        if (this->on_boss == true && (args[2].find("_DIED") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[8]) >= 1)
+        {
+            this->actual_boss = "";
+            this->on_boss = false;
+            std::cout << args[8] + " died" << std::endl;
+            this->logs.push_back(args[8] + " died");
+        }
+    }
+}
+
+
+/* SPELL */
+void    Logs::track_spell(std::deque<std::string> args)
+{
+    if (args.size() >= 12)
+    {
+        if (args[2].find("_DAMAGE") != std::string::npos)
+        {
+            if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
+            {
+                std::cout << args[8] + " take " + args[14] + " damage from " + args[12] + " (" + args[11] + ")" << std::endl;
+                this->logs.push_back(args[8] + " take " + args[14] + " damage from " + args[12] + " (" + args[11] + ")");
+            }
+        }
+        if (args[2].find("_INSTAKILL") != std::string::npos)
+        {
+            if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
+            {
+                std::cout << args[8] + " one shot from " + args[12] + " (" + args[11] + ")" << std::endl;
+                this->logs.push_back(args[8] + " one shot from " + args[12] + " (" + args[11] + ")");
+            }
+        }
+    }
 }
 
 void    Logs::potion_resum()

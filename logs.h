@@ -73,9 +73,9 @@ public:
     void parse_boss_name(std::string line);
 
     void potion_resum();
-    std::string track_spell(std::deque<std::string>);
+    void track_spell(std::deque<std::string>);
 
-    void    track_boss(std::deque<std::string> args);
+    void track_boss(std::deque<std::string> args);
 
 private slots:
     void launch_parse();
@@ -95,6 +95,9 @@ private:
 
     // Parser
     std::ifstream   filedes;
+    std::string actual_boss;
+    bool on_boss;
+    std::deque<std::string> logs;
 
     // Players
     std::deque<std::string> players;
@@ -104,7 +107,6 @@ private:
 
     // Spells
     std::deque<int> spells_id;
-    std::deque<std::string> spells_name;
 };
 
 #endif // LOGS_H
