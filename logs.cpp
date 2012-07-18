@@ -34,9 +34,10 @@ Logs::Logs(std::string filename, QWidget *parent) : QDialog(parent)
 
     this->bossLabel = new QLabel(tr("<strong>Boss</strong>:"));
     this->trackedBoss = new QLineEdit("");
-
     this->spellsLabel = new QLabel(tr("<strong>Spells</strong>:"));
     this->trackedSpells = new QLineEdit(trUtf8(""));
+
+    this->debugbox = new QCheckBox(tr("Debug mode"));
 
     this->parseButton = createButton(tr("&Parse"), SLOT(launch_parse()));
 
@@ -46,17 +47,17 @@ Logs::Logs(std::string filename, QWidget *parent) : QDialog(parent)
     spellsLayout->addWidget(spellsLabel);
     spellsLayout->addWidget(trackedSpells);
 
-    parseLayout->addWidget(fileinfo, 0, 0);
+    parseLayout->addWidget(fileinfo, 3, 0);
     parseLayout->addWidget(parseButton, 3, 3);
     parseLayout->addLayout(bossLayout, 1, 0);
     parseLayout->addLayout(spellsLayout, 2, 0);
 
     secondLayout->addLayout(parseLayout, 0, 0);
+    secondLayout->addWidget(debugbox, 1, 0);
 
     setLayout(secondLayout);
     setWindowTitle(tr("Infos"));
     this->show();
-    this->resize(700, 100);
 }
 
 Logs::~Logs()
@@ -81,6 +82,8 @@ void Logs::parse_spells_id(std::string line)
     int pos = 0;
     char id[MAX_ID];
 
+    if (line == "")
+        return;
     while ((int)line.size() >= pos)
     {
         if (line.c_str()[pos] == ',' || line.c_str()[pos] == 0)
@@ -105,6 +108,8 @@ void Logs::parse_boss_name(std::string line)
     char name[255];
 
     memset(&name, '\0', 255);
+    if (line == "")
+        return;
     while ((int)line.size() >= pos)
     {
         if (line.c_str()[pos] == ',' || line.c_str()[pos] == 0)
@@ -125,6 +130,10 @@ void    Logs::launch_parse()
     std::string line;
     std::deque<std::string> args;
 
+    this->logs.clear();
+    this->spells_id.clear();
+    this->boss_name.clear();
+
     this->on_boss = false;
     parse_spells_id(this->trackedSpells->text().toStdString());
     parse_boss_name(this->trackedBoss->text().toStdString());
@@ -132,6 +141,7 @@ void    Logs::launch_parse()
     this->filedes.open(this->filename.c_str(), std::ifstream::in);
     if (filedes.is_open())
     {
+        std::cout << "Parsing progress..." << std::endl;
         while (filedes.good())
         {
             getline(filedes, line);
@@ -144,8 +154,9 @@ void    Logs::launch_parse()
     else
         std::cout << "Unable to open file" << filename << std::endl;
 
-    for (int i = 0; (int)this->logs.size() > i; ++i)
-        std::cout << this->logs[i] << std::endl;
+    std::cout << "Parsing Done..." << std::endl;
+    std::cout << "Load new user interface..." << std::endl;
+    this->close();
 }
 
 std::deque<std::string>    Logs::parse_log(std::string line)
@@ -155,7 +166,7 @@ std::deque<std::string>    Logs::parse_log(std::string line)
     bool    is_name = false;
     int     count = 0;
 
-    for (int i = 0; i < (int)line.size(); ++i)
+    for (int i = 0; i <= (int)line.size(); ++i)
     {
         if (line.c_str()[i] == '\"' && is_name == false)
         {
@@ -179,6 +190,7 @@ std::deque<std::string>    Logs::parse_log(std::string line)
         }
         arg.insert(arg.size(), 1, line.c_str()[i]);
     }
+    ret.push_back(arg);
     return (ret);
 }
 
@@ -192,22 +204,31 @@ void    Logs::track_boss(std::deque<std::string> args)
         {
             this->actual_boss = args[8];
             this->on_boss = true;
-            std::cout << args[8] + " engaged" << std::endl;
-            this->logs.push_back(args[8] + " engaged");
+            if (debugbox->isChecked() == true)
+                std::cout << args[8] + " engaged " + args[0] + " at "+ args[1] << std::endl;
+            this->logs.push_back(args[8] + " engaged " + args[0] + " at "+ args[1]);
         }
 
         if (this->on_boss == true && (args[2].find("_DIED") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[8]) >= 1)
         {
             this->actual_boss = "";
             this->on_boss = false;
-            std::cout << args[8] + " died" << std::endl;
-            this->logs.push_back(args[8] + " died");
+            if (debugbox->isChecked() == true)
+                std::cout << args[8] + " died " + args[0] + " at " + args[1]<< std::endl << std::endl;
+            this->logs.push_back(args[8] + " died " + args[0] + " at " + args[1] + "\n");
         }
     }
 }
 
-
 /* SPELL */
+static std::string  buff_or_debuff(std::string arg)
+{
+    if (arg.find("BUFF", 0, 4) != std::string::npos)
+        return (" get buffed ");
+    else
+        return (" get debuffed ");
+}
+
 void    Logs::track_spell(std::deque<std::string> args)
 {
     if (args.size() >= 12)
@@ -216,16 +237,29 @@ void    Logs::track_spell(std::deque<std::string> args)
         {
             if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
             {
-                std::cout << args[8] + " take " + args[14] + " damage from " + args[12] + " (" + args[11] + ")" << std::endl;
-                this->logs.push_back(args[8] + " take " + args[14] + " damage from " + args[12] + " (" + args[11] + ")");
+                if (debugbox->isChecked() == true)
+                    std::cout << trUtf8(args[8].c_str()).toStdString() + " take " + args[14] + " damage from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
+                this->logs.push_back(trUtf8(args[8].c_str()).toStdString() + " take " + args[14] + " damage from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")");
             }
         }
+
+        if (args[2].find("_AURA_APPLIED") != std::string::npos)
+        {
+            if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
+            {
+                if (debugbox->isChecked() == true)
+                    std::cout << trUtf8(args[8].c_str()).toStdString() + buff_or_debuff(args[14]) + "from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
+                this->logs.push_back(trUtf8(args[8].c_str()).toStdString() + buff_or_debuff(args[14]) + "from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")");
+            }
+        }
+
         if (args[2].find("_INSTAKILL") != std::string::npos)
         {
             if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
             {
-                std::cout << args[8] + " one shot from " + args[12] + " (" + args[11] + ")" << std::endl;
-                this->logs.push_back(args[8] + " one shot from " + args[12] + " (" + args[11] + ")");
+                if (debugbox->isChecked() == true)
+                    std::cout << trUtf8(args[8].c_str()).toStdString() + " one shot from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
+                this->logs.push_back(trUtf8(args[8].c_str()).toStdString() + " one shot from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")");
             }
         }
     }

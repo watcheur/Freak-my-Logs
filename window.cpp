@@ -25,12 +25,10 @@ Window::Window(QWidget *parent) : QDialog(parent)
 
     createFilesTable();
 
-    //QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout = new QHBoxLayout;
     buttonsLayout->addStretch();
     buttonsLayout->addWidget(findButton);
 
-    //QGridLayout *mainLayout = new QGridLayout;
     mainLayout = new QGridLayout;
     mainLayout->addWidget(directoryLabel, 2, 0);
     mainLayout->addWidget(directoryComboBox, 2, 1);

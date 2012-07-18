@@ -9,8 +9,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <QProgressBar>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QCheckBox>
 #include <QDialog>
 #include <QDir>
 #include <QLineEdit>

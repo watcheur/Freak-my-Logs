@@ -86,6 +86,7 @@ private:
     QPushButton     *createButton(const QString &text, const char *member);
     QGridLayout     *parseLayout;
     QPushButton     *parseButton;
+    QCheckBox       *debugbox;
 
     QLabel          *bossLabel;
     QLineEdit       *trackedBoss;
