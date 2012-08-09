@@ -1,0 +1,369 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		069D05B0128AE5DC7EE31738 /* QtCore.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */; };
+		0DCE38A2DFA0689AD05C5054 /* logs.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 8F4CB788D7C955206DC80C00 /* logs.cpp */; settings = {ATTRIBUTES = (); }; };
+		2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 118FCBAABA162BA17933C789 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		501667F26B3C1FF6767A7C12 /* QtGui.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 9B36DA7E32F0304E780E7972 /* QtGui.framework */; };
+		A8726DBAB1708155C13A0A2A /* moc_window.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 03CC4BA1004C618C58FF0257 /* moc_window.cpp */; settings = {ATTRIBUTES = (); }; };
+		D34D1D26115C17E2106BDFB5 /* moc_logs.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = FB2F43FA994DA861D889B6EA /* moc_logs.cpp */; settings = {ATTRIBUTES = (); }; };
+		FC203E8953C53F09233D0CFC /* window.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 22B8EB497DD4812281107EF2 /* window.cpp */; settings = {ATTRIBUTES = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		03CC4BA1004C618C58FF0257 /* moc_window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_window.cpp; sourceTree = "<group>"; };
+		118FCBAABA162BA17933C789 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		19A0A4CBC39E295570A5FF7B /* logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logs.h; sourceTree = "<group>"; };
+		22B8EB497DD4812281107EF2 /* window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = window.cpp; sourceTree = "<group>"; };
+		2B601351BBFD3F9918188CF7 /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
+		66CE870515D42A900073BBE3 /* my_wol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = my_wol.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = /Library/Frameworks/QtCore.framework; sourceTree = "<absolute>"; };
+		8F4CB788D7C955206DC80C00 /* logs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logs.cpp; sourceTree = "<group>"; };
+		9B36DA7E32F0304E780E7972 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
+		BD8ACF9366C3D9CEBB59CD5E /* ui_window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ui_window.h; sourceTree = "<group>"; };
+		E94C47D9C15695883ED9A889 /* window.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = window.ui; sourceTree = "<group>"; };
+		FA210A500893407999881DB0 /* my_wol.pro */ = {isa = PBXFileReference; lastKnownFileType = text; path = my_wol.pro; sourceTree = "<group>"; };
+		FB2F43FA994DA861D889B6EA /* moc_logs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_logs.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2A1043669E6E5A7426EA502A /* Frameworks & Libraries */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				501667F26B3C1FF6767A7C12 /* QtGui.framework in Frameworks & Libraries */,
+				069D05B0128AE5DC7EE31738 /* QtCore.framework in Frameworks & Libraries */,
+			);
+			name = "Frameworks & Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		05596AB53D8D521C69802C27 /* my_wol */ = {
+			isa = PBXGroup;
+			children = (
+				FB61758D0F0FDA4BA867C3D5 /* Sources */,
+				46E892BBB6BB6952967E0561 /* Temporary Sources */,
+				883D7615C4D2DE3FA1218F12 /* Headers */,
+				7CABE3C80E79AD2B307756D2 /* Sources [qmake] */,
+				EEC299C65D5017EB9DD513B0 /* Sources [UIC] */,
+				ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */,
+				66CE870615D42A900073BBE3 /* Products */,
+			);
+			name = my_wol;
+			sourceTree = "<group>";
+		};
+		46E892BBB6BB6952967E0561 /* Temporary Sources */ = {
+			isa = PBXGroup;
+			children = (
+				03CC4BA1004C618C58FF0257 /* moc_window.cpp */,
+				FB2F43FA994DA861D889B6EA /* moc_logs.cpp */,
+				BD8ACF9366C3D9CEBB59CD5E /* ui_window.h */,
+			);
+			name = "Temporary Sources";
+			sourceTree = "<group>";
+		};
+		66CE870615D42A900073BBE3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66CE870515D42A900073BBE3 /* my_wol.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7CABE3C80E79AD2B307756D2 /* Sources [qmake] */ = {
+			isa = PBXGroup;
+			children = (
+				FA210A500893407999881DB0 /* my_wol.pro */,
+			);
+			name = "Sources [qmake]";
+			sourceTree = "<group>";
+		};
+		883D7615C4D2DE3FA1218F12 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				2B601351BBFD3F9918188CF7 /* window.h */,
+				19A0A4CBC39E295570A5FF7B /* logs.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				9B36DA7E32F0304E780E7972 /* QtGui.framework */,
+				7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		EEC299C65D5017EB9DD513B0 /* Sources [UIC] */ = {
+			isa = PBXGroup;
+			children = (
+				E94C47D9C15695883ED9A889 /* window.ui */,
+			);
+			name = "Sources [UIC]";
+			sourceTree = "<group>";
+		};
+		FB61758D0F0FDA4BA867C3D5 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				118FCBAABA162BA17933C789 /* main.cpp */,
+				22B8EB497DD4812281107EF2 /* window.cpp */,
+				8F4CB788D7C955206DC80C00 /* logs.cpp */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		583CE36341C919110B4E4E25 /* my_wol */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "my_wol" */;
+			buildPhases = (
+				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
+				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
+				C29B8785722055ED95EF7B57 /* Build Sources */,
+				2A1043669E6E5A7426EA502A /* Frameworks & Libraries */,
+				3787F99312C85FF0073FD7BA /* Bundle Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = my_wol;
+			productName = my_wol;
+			productReference = 66CE870515D42A900073BBE3 /* my_wol.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		91B15E841AA80083484172DE /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CC82A9286117DFED018F418F /* Build configuration list for PBXProject "my_wol" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 05596AB53D8D521C69802C27 /* my_wol */;
+			productRefGroup = 66CE870615D42A900073BBE3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				583CE36341C919110B4E4E25 /* my_wol */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3787F99312C85FF0073FD7BA /* Bundle Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "Bundle Resources";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "Qt Preprocessors";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/mathieumoriceau/Documents/workspace/Perso/Freak-my-Logs -f 'my_wol.xcodeproj/qt_preprocess.mak'";
+		};
+		D7BA7D76DAB5DD13389D6332 /* Qt Qmake */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "Qt Qmake";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/mathieumoriceau/Documents/workspace/Perso/Freak-my-Logs -f 'my_wol.xcodeproj/qt_makeqmake.mak'";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C29B8785722055ED95EF7B57 /* Build Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */,
+				FC203E8953C53F09233D0CFC /* window.cpp in Build Sources */,
+				0DCE38A2DFA0689AD05C5054 /* logs.cpp in Build Sources */,
+				A8726DBAB1708155C13A0A2A /* moc_window.cpp in Build Sources */,
+				D34D1D26115C17E2106BDFB5 /* moc_logs.cpp in Build Sources */,
+			);
+			name = "Build Sources";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4B72B24813252891014BCF61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = x86_64;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					/Library/Frameworks,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/QtCore.framework/Versions/4/Headers,
+					/usr/include/QtCore,
+					/Library/Frameworks/QtGui.framework/Versions/4/Headers,
+					/usr/include/QtGui,
+					/usr/include,
+					.,
+					.,
+					/usr/local/include,
+					/System/Library/Frameworks/CarbonCore.framework/Headers,
+					"/usr/local/Qt4.8/mkspecs/macx-xcode",
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = /Library/Frameworks;
+				OTHER_CFLAGS = (
+					"-pipe",
+					"-g",
+					"-Wall",
+					"-W",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB",
+					"-DQT_SHARED",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-pipe",
+					"-g",
+					"-Wall",
+					"-W",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB",
+					"-DQT_SHARED",
+				);
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-L/Library/Frameworks",
+					"-F/Library/Frameworks",
+				);
+				PRODUCT_NAME = my_wol;
+			};
+			name = Debug;
+		};
+		8C7174830A1E4DCBA0332EC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = my_wol;
+			};
+			name = Release;
+		};
+		BEC09A62E69C3553534FF35E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = my_wol;
+			};
+			name = Debug;
+		};
+		D70590BEB531B51029F711BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = x86_64;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					/Library/Frameworks,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/QtCore.framework/Versions/4/Headers,
+					/usr/include/QtCore,
+					/Library/Frameworks/QtGui.framework/Versions/4/Headers,
+					/usr/include/QtGui,
+					/usr/include,
+					.,
+					.,
+					/usr/local/include,
+					/System/Library/Frameworks/CarbonCore.framework/Headers,
+					"/usr/local/Qt4.8/mkspecs/macx-xcode",
+				);
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = /Library/Frameworks;
+				OTHER_CFLAGS = (
+					"-pipe",
+					"-g",
+					"-Wall",
+					"-W",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB",
+					"-DQT_SHARED",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"-pipe",
+					"-g",
+					"-Wall",
+					"-W",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB",
+					"-DQT_SHARED",
+				);
+				OTHER_LDFLAGS = (
+					"-headerpad_max_install_names",
+					"-L/Library/Frameworks",
+					"-F/Library/Frameworks",
+				);
+				PRODUCT_NAME = my_wol;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "my_wol" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEC09A62E69C3553534FF35E /* Debug */,
+				8C7174830A1E4DCBA0332EC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC82A9286117DFED018F418F /* Build configuration list for PBXProject "my_wol" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B72B24813252891014BCF61 /* Debug */,
+				D70590BEB531B51029F711BB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 91B15E841AA80083484172DE /* Project object */;
+}

@@ -9,6 +9,11 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <list>
+#include <deque>
 #include <QProgressBar>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -16,11 +21,6 @@
 #include <QDialog>
 #include <QDir>
 #include <QLineEdit>
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <list>
-#include <deque>
 
 class QComboBox;
 class QLabel;

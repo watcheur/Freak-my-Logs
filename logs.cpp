@@ -152,9 +152,13 @@ void    Logs::launch_parse()
         }
     }
     else
-        std::cout << "Unable to open file" << filename << std::endl;
+        std::cout << "Unable to open file" << this->filename << std::endl;
 
     std::cout << "Parsing Done..." << std::endl;
+	std::list<t_events>::iterator	it;
+	
+	for (it = this->logs.begin(); it != this->logs.end();++it)
+		std::cout << *it;
     std::cout << "Load new user interface..." << std::endl;
     this->close();
 }
@@ -194,6 +198,19 @@ std::deque<std::string>    Logs::parse_log(std::string line)
     return (ret);
 }
 
+t_events	Logs::add_event(int type, int id, std::string name, std::string date, std::string target, int damage)
+{
+	t_events	ret;
+	
+	ret.event_type	= type;
+	ret.event_id	= id;
+	ret.event_name	= name;
+	ret.event_date	= date;
+	ret.event_target = target;
+	ret.damage	= damage;
+	return (ret);
+}
+
 /* BOSS */
 
 void    Logs::track_boss(std::deque<std::string> args)
@@ -206,7 +223,7 @@ void    Logs::track_boss(std::deque<std::string> args)
             this->on_boss = true;
             if (debugbox->isChecked() == true)
                 std::cout << args[8] + " engaged " + args[0] + " at "+ args[1] << std::endl;
-            this->logs.push_back(args[8] + " engaged " + args[0] + " at "+ args[1]);
+			this->logs.push_back(this->add_event(BOSS_PULL, -1, args[8], args[1], args[8], -1));
         }
 
         if (this->on_boss == true && (args[2].find("_DIED") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[8]) >= 1)
@@ -215,18 +232,18 @@ void    Logs::track_boss(std::deque<std::string> args)
             this->on_boss = false;
             if (debugbox->isChecked() == true)
                 std::cout << args[8] + " died " + args[0] + " at " + args[1]<< std::endl << std::endl;
-            this->logs.push_back(args[8] + " died " + args[0] + " at " + args[1] + "\n");
+            this->logs.push_back(this->add_event(BOSS_DIE, -1, args[8], args[1], args[8], -1));
         }
     }
 }
 
 /* SPELL */
-static std::string  buff_or_debuff(std::string arg)
+static int  buff_or_debuff(std::string arg)
 {
     if (arg.find("BUFF", 0, 4) != std::string::npos)
-        return (" get buffed ");
+        return (BUFF);
     else
-        return (" get debuffed ");
+        return (DEBUFF);
 }
 
 void    Logs::track_spell(std::deque<std::string> args)
@@ -238,8 +255,8 @@ void    Logs::track_spell(std::deque<std::string> args)
             if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
             {
                 if (debugbox->isChecked() == true)
-                    std::cout << trUtf8(args[8].c_str()).toStdString() + " take " + args[14] + " damage from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
-                this->logs.push_back(trUtf8(args[8].c_str()).toStdString() + " take " + args[14] + " damage from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")");
+                    std::cout << args[8] + " take " + args[14] + " damage from " + args[12] + " (" + args[11] + ")" << std::endl;
+				this->logs.push_back(this->add_event(DAMAGE, atoi(args[11].c_str()), args[12], args[1], args[8], atoi(args[14].c_str())));
             }
         }
 
@@ -248,8 +265,8 @@ void    Logs::track_spell(std::deque<std::string> args)
             if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
             {
                 if (debugbox->isChecked() == true)
-                    std::cout << trUtf8(args[8].c_str()).toStdString() + buff_or_debuff(args[14]) + "from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
-                this->logs.push_back(trUtf8(args[8].c_str()).toStdString() + buff_or_debuff(args[14]) + "from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")");
+                    std::cout << args[8] << buff_or_debuff(args[14]) << "from " << args[12] << " (" << args[11] << ")" << std::endl;
+				this->logs.push_back(this->add_event(buff_or_debuff(args[14]), atoi(args[11].c_str()), args[12], args[1], args[8], -1));
             }
         }
 
@@ -259,13 +276,46 @@ void    Logs::track_spell(std::deque<std::string> args)
             {
                 if (debugbox->isChecked() == true)
                     std::cout << trUtf8(args[8].c_str()).toStdString() + " one shot from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
-                this->logs.push_back(trUtf8(args[8].c_str()).toStdString() + " one shot from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")");
+				this->logs.push_back(this->add_event(INSTAKILL, atoi(args[11].c_str()), args[12], args[1], args[8], -1));
             }
         }
     }
 }
 
-void    Logs::potion_resum()
+/* OTHER */
+std::ostream& operator<<(std::ostream& os, t_events const &l)
 {
-
+	std::deque<std::string>	message;
+	
+	message.push_back(" a subit "); // DAMAGE
+	message.push_back(" a gagné "); // BUFF
+	message.push_back(" a subit "); // DEBUFF
+	message.push_back(" est apparu le "); // SPAWN
+	message.push_back(" est mort par "); // DIE
+	message.push_back(" one shot par "); // INSTAKILL
+	message.push_back(" a été engagé a "); // BOSS_PULL
+	message.push_back(" est mort a "); // BOSS_DIE
+	message.push_back("Le raid a wipe."); // WIPE
+	
+	switch (l.event_type) {
+		case BOSS_PULL:
+		case BOSS_DIE:
+		case SPAWN:
+			os << l.event_target << message[l.event_type] << l.event_date << std::endl;
+			break;
+		case BUFF:
+		case DEBUFF:
+		case INSTAKILL:
+			os << l.event_target << message[l.event_type] << l.event_name << "(" << l.event_id << ") a " << l.event_date << std::endl;
+			break;
+		case DAMAGE:
+			os << l.event_target << message[l.event_type] << l.damage << " de dégats par " << l.event_name << "(" << l.event_id << ") a " << l.event_date << std::endl;
+			break;
+		case WIPE:
+			os << message[l.event_type] << std::endl;
+		default:
+			break;
+	}
+	return (os);
 }
+								
