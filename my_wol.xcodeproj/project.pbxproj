@@ -10,8 +10,10 @@
 		069D05B0128AE5DC7EE31738 /* QtCore.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */; };
 		0DCE38A2DFA0689AD05C5054 /* logs.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 8F4CB788D7C955206DC80C00 /* logs.cpp */; settings = {ATTRIBUTES = (); }; };
 		2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 118FCBAABA162BA17933C789 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		469E90C7A86721C354ADFD15 /* final_ui.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 159FBD9A1BA5C2AFEA71967E /* final_ui.cpp */; settings = {ATTRIBUTES = (); }; };
 		501667F26B3C1FF6767A7C12 /* QtGui.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 9B36DA7E32F0304E780E7972 /* QtGui.framework */; };
 		A8726DBAB1708155C13A0A2A /* moc_window.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 03CC4BA1004C618C58FF0257 /* moc_window.cpp */; settings = {ATTRIBUTES = (); }; };
+		C74195F7765FBCBFEC981850 /* moc_final_ui.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 13CA16371203CE5A613518D1 /* moc_final_ui.cpp */; settings = {ATTRIBUTES = (); }; };
 		D34D1D26115C17E2106BDFB5 /* moc_logs.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = FB2F43FA994DA861D889B6EA /* moc_logs.cpp */; settings = {ATTRIBUTES = (); }; };
 		FC203E8953C53F09233D0CFC /* window.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 22B8EB497DD4812281107EF2 /* window.cpp */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
@@ -19,14 +21,17 @@
 /* Begin PBXFileReference section */
 		03CC4BA1004C618C58FF0257 /* moc_window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_window.cpp; sourceTree = "<group>"; };
 		118FCBAABA162BA17933C789 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		13CA16371203CE5A613518D1 /* moc_final_ui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_final_ui.cpp; sourceTree = "<group>"; };
+		159FBD9A1BA5C2AFEA71967E /* final_ui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = final_ui.cpp; sourceTree = "<group>"; };
 		19A0A4CBC39E295570A5FF7B /* logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logs.h; sourceTree = "<group>"; };
 		22B8EB497DD4812281107EF2 /* window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = window.cpp; sourceTree = "<group>"; };
 		2B601351BBFD3F9918188CF7 /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
-		66CE870515D42A900073BBE3 /* my_wol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = my_wol.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66655D0415D54A54006C43C8 /* my_wol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = my_wol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = /Library/Frameworks/QtCore.framework; sourceTree = "<absolute>"; };
 		8F4CB788D7C955206DC80C00 /* logs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logs.cpp; sourceTree = "<group>"; };
 		9B36DA7E32F0304E780E7972 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
 		BD8ACF9366C3D9CEBB59CD5E /* ui_window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ui_window.h; sourceTree = "<group>"; };
+		D452EC96AB68BEEBAFBA4421 /* final_ui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = final_ui.h; sourceTree = "<group>"; };
 		E94C47D9C15695883ED9A889 /* window.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = window.ui; sourceTree = "<group>"; };
 		FA210A500893407999881DB0 /* my_wol.pro */ = {isa = PBXFileReference; lastKnownFileType = text; path = my_wol.pro; sourceTree = "<group>"; };
 		FB2F43FA994DA861D889B6EA /* moc_logs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = moc_logs.cpp; sourceTree = "<group>"; };
@@ -55,7 +60,7 @@
 				7CABE3C80E79AD2B307756D2 /* Sources [qmake] */,
 				EEC299C65D5017EB9DD513B0 /* Sources [UIC] */,
 				ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */,
-				66CE870615D42A900073BBE3 /* Products */,
+				66655D0515D54A54006C43C8 /* Products */,
 			);
 			name = my_wol;
 			sourceTree = "<group>";
@@ -65,15 +70,16 @@
 			children = (
 				03CC4BA1004C618C58FF0257 /* moc_window.cpp */,
 				FB2F43FA994DA861D889B6EA /* moc_logs.cpp */,
+				13CA16371203CE5A613518D1 /* moc_final_ui.cpp */,
 				BD8ACF9366C3D9CEBB59CD5E /* ui_window.h */,
 			);
 			name = "Temporary Sources";
 			sourceTree = "<group>";
 		};
-		66CE870615D42A900073BBE3 /* Products */ = {
+		66655D0515D54A54006C43C8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				66CE870515D42A900073BBE3 /* my_wol.app */,
+				66655D0415D54A54006C43C8 /* my_wol.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,6 +97,7 @@
 			children = (
 				2B601351BBFD3F9918188CF7 /* window.h */,
 				19A0A4CBC39E295570A5FF7B /* logs.h */,
+				D452EC96AB68BEEBAFBA4421 /* final_ui.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -118,6 +125,7 @@
 				118FCBAABA162BA17933C789 /* main.cpp */,
 				22B8EB497DD4812281107EF2 /* window.cpp */,
 				8F4CB788D7C955206DC80C00 /* logs.cpp */,
+				159FBD9A1BA5C2AFEA71967E /* final_ui.cpp */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -141,7 +149,7 @@
 			);
 			name = my_wol;
 			productName = my_wol;
-			productReference = 66CE870515D42A900073BBE3 /* my_wol.app */;
+			productReference = 66655D0415D54A54006C43C8 /* my_wol.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -160,7 +168,7 @@
 				German,
 			);
 			mainGroup = 05596AB53D8D521C69802C27 /* my_wol */;
-			productRefGroup = 66CE870615D42A900073BBE3 /* Products */;
+			productRefGroup = 66655D0515D54A54006C43C8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -211,8 +219,10 @@
 				2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */,
 				FC203E8953C53F09233D0CFC /* window.cpp in Build Sources */,
 				0DCE38A2DFA0689AD05C5054 /* logs.cpp in Build Sources */,
+				469E90C7A86721C354ADFD15 /* final_ui.cpp in Build Sources */,
 				A8726DBAB1708155C13A0A2A /* moc_window.cpp in Build Sources */,
 				D34D1D26115C17E2106BDFB5 /* moc_logs.cpp in Build Sources */,
+				C74195F7765FBCBFEC981850 /* moc_final_ui.cpp in Build Sources */,
 			);
 			name = "Build Sources";
 			runOnlyForDeploymentPostprocessing = 0;

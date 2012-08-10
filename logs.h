@@ -96,6 +96,4 @@ private:
     std::deque<int> spells_id;
 };
 
-std::ostream& operator<<(std::ostream& os, t_events const &l);
-
 #endif // LOGS_H

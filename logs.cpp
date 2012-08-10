@@ -9,6 +9,7 @@
 #include <QtGui>
 #include "window.h"
 #include "logs.h"
+#include "final_ui.h"
 
 // 12/28 21:02:23.629  SPELL_AURA_APPLIED,0x0680000002F548FA,"Rhogar",0x511,0x0,0x0680000002F548FA,"Rhogar",0x511,0x0,79633,"Agilit des Tol'vir",0x10,BUFF
 
@@ -155,12 +156,9 @@ void    Logs::launch_parse()
         std::cout << "Unable to open file" << this->filename << std::endl;
 
     std::cout << "Parsing Done..." << std::endl;
-	std::list<t_events>::iterator	it;
-	
-	for (it = this->logs.begin(); it != this->logs.end();++it)
-		std::cout << *it;
     std::cout << "Load new user interface..." << std::endl;
-    this->close();
+	new IFinal(this->logs, this->spells_id, this->boss_name, this->players);
+	this->close();
 }
 
 std::deque<std::string>    Logs::parse_log(std::string line)
@@ -217,13 +215,13 @@ void    Logs::track_boss(std::deque<std::string> args)
 {
     if (args.size() > 8)
     {
-        if (this->on_boss == false && (args[2].find("_DAMAGE") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[8]) >= 1)
+        if (this->on_boss == false && (args[2].find("_DAMAGE") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[4]) >= 1)
         {
-            this->actual_boss = args[8];
+            this->actual_boss = args[4];
             this->on_boss = true;
             if (debugbox->isChecked() == true)
-                std::cout << args[8] + " engaged " + args[0] + " at "+ args[1] << std::endl;
-			this->logs.push_back(this->add_event(BOSS_PULL, -1, args[8], args[1], args[8], -1));
+                std::cout << args[4] + " engaged " + args[0] + " at "+ args[1] << std::endl;
+			this->logs.push_back(this->add_event(BOSS_PULL, -1, args[4], args[1], args[4], -1));
         }
 
         if (this->on_boss == true && (args[2].find("_DIED") != std::string::npos) && count(this->boss_name.begin(), this->boss_name.end(), args[8]) >= 1)
@@ -275,47 +273,11 @@ void    Logs::track_spell(std::deque<std::string> args)
             if (count(this->spells_id.begin(), this->spells_id.end(), atoi(args[11].c_str())) >= 1)
             {
                 if (debugbox->isChecked() == true)
-                    std::cout << trUtf8(args[8].c_str()).toStdString() + " one shot from " + trUtf8(args[12].c_str()).toStdString() + " (" + args[11] + ")" << std::endl;
+                    std::cout << args[8] + " one shot from " + args[12] + " (" + args[11] + ")" << std::endl;
 				this->logs.push_back(this->add_event(INSTAKILL, atoi(args[11].c_str()), args[12], args[1], args[8], -1));
             }
         }
+		if (count(this->players.begin(), this->players.end(), args[8]) == 0)
+			this->players.push_back(args[8]);
     }
-}
-
-/* OTHER */
-std::ostream& operator<<(std::ostream& os, t_events const &l)
-{
-	std::deque<std::string>	message;
-	
-	message.push_back(" a subit "); // DAMAGE
-	message.push_back(" a gagné "); // BUFF
-	message.push_back(" a subit "); // DEBUFF
-	message.push_back(" est apparu le "); // SPAWN
-	message.push_back(" est mort par "); // DIE
-	message.push_back(" one shot par "); // INSTAKILL
-	message.push_back(" a été engagé a "); // BOSS_PULL
-	message.push_back(" est mort a "); // BOSS_DIE
-	message.push_back("Le raid a wipe."); // WIPE
-	
-	switch (l.event_type) {
-		case BOSS_PULL:
-		case BOSS_DIE:
-		case SPAWN:
-			os << l.event_target << message[l.event_type] << l.event_date << std::endl;
-			break;
-		case BUFF:
-		case DEBUFF:
-		case INSTAKILL:
-			os << l.event_target << message[l.event_type] << l.event_name << "(" << l.event_id << ") a " << l.event_date << std::endl;
-			break;
-		case DAMAGE:
-			os << l.event_target << message[l.event_type] << l.damage << " de dégats par " << l.event_name << "(" << l.event_id << ") a " << l.event_date << std::endl;
-			break;
-		case WIPE:
-			os << message[l.event_type] << std::endl;
-		default:
-			break;
-	}
-	return (os);
-}
-								
+}						

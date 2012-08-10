@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'logs.h'
 **
-** Created: Thu Aug 9 22:00:38 2012
+** Created: Fri Aug 10 12:31:01 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.2)
 **
 ** WARNING! All changes made in this file will be lost!
