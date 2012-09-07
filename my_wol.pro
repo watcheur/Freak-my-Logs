@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-TARGET = my_wol
+TARGET = Freak_My_Logs
 TEMPLATE = app
 
 

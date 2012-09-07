@@ -18,6 +18,8 @@
 // 79476 - Volcanic - Intel
 // 78993 - Concentration - Mana
 // 79475 - Earthen - Armor
+// Check all potions: 79633,79634,79476,78993,79475
+// CHeck all potions + Stomp Morchok: 79633,79634,79476,78993,79475,109034
 
 /*****************************
            INTERFACE

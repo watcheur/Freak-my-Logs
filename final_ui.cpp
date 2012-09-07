@@ -32,6 +32,7 @@ IFinal::IFinal(std::list<t_events> logs, std::deque<int> spells, std::deque<std:
 	
 	setLayout(thirdLayout);
     setWindowTitle(tr("Interface final"));
+    this->resize(300, 600);
     this->show();
 }
 
@@ -80,6 +81,12 @@ void    IFinal::launch_interface()
 {
 	std::list<t_events>::iterator it_boss;
 	std::list<t_events>	actual_boss;
+    
+    int spells_idx;
+    int players_idx;
+    int count;
+    
+    bool get_name;
 	
 	/*
 	 enum event_list {
@@ -119,6 +126,30 @@ void    IFinal::launch_interface()
 			break;
 		}
 	}
+    
+    for (spells_idx = 0; spells_idx < (int)this->spells.size(); ++spells_idx)
+    {
+        for (players_idx = 0, count = 0; players_idx < (int)this->players.size(); ++players_idx)
+        {
+            count = 0;
+            for (it_boss = actual_boss.begin(); it_boss != actual_boss.end(); ++it_boss)
+            {
+                if (get_name == false && it_boss->event_id == this->spells[spells_idx])
+                {
+                    this->textarea->append(QString().fromUtf8(it_boss->event_name.c_str()));
+                    get_name = true;
+                }
+                
+                if (it_boss->event_id == this->spells[spells_idx] && it_boss->event_target == this->players[players_idx])
+                    count += 1;
+            }
+            if (count > 0)
+                this->textarea->append("  " + QString().fromUtf8(this->players[players_idx].c_str()) + ": x" +
+                                       QString::number(count));
+        }
+        this->textarea->append("");
+        get_name = false;
+    }
 }
 
 QPushButton *IFinal::createButton(const QString &text, const char *member)

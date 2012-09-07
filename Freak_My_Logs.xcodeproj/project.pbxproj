@@ -12,6 +12,7 @@
 		2B093CA6F071B023A473CED0 /* main.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 118FCBAABA162BA17933C789 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 		469E90C7A86721C354ADFD15 /* final_ui.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 159FBD9A1BA5C2AFEA71967E /* final_ui.cpp */; settings = {ATTRIBUTES = (); }; };
 		501667F26B3C1FF6767A7C12 /* QtGui.framework in Frameworks & Libraries */ = {isa = PBXBuildFile; fileRef = 9B36DA7E32F0304E780E7972 /* QtGui.framework */; };
+		66B8B25F15FA3A4700D34802 /* fmol.icns in Bundle Resources */ = {isa = PBXBuildFile; fileRef = 66B8B25E15FA3A4700D34802 /* fmol.icns */; };
 		A8726DBAB1708155C13A0A2A /* moc_window.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 03CC4BA1004C618C58FF0257 /* moc_window.cpp */; settings = {ATTRIBUTES = (); }; };
 		C74195F7765FBCBFEC981850 /* moc_final_ui.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = 13CA16371203CE5A613518D1 /* moc_final_ui.cpp */; settings = {ATTRIBUTES = (); }; };
 		D34D1D26115C17E2106BDFB5 /* moc_logs.cpp in Build Sources */ = {isa = PBXBuildFile; fileRef = FB2F43FA994DA861D889B6EA /* moc_logs.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -26,7 +27,8 @@
 		19A0A4CBC39E295570A5FF7B /* logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logs.h; sourceTree = "<group>"; };
 		22B8EB497DD4812281107EF2 /* window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = window.cpp; sourceTree = "<group>"; };
 		2B601351BBFD3F9918188CF7 /* window.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = window.h; sourceTree = "<group>"; };
-		66655D0415D54A54006C43C8 /* my_wol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = my_wol.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66B8B25B15FA3A2B00D34802 /* Freak_My_Logs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Freak_My_Logs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66B8B25E15FA3A4700D34802 /* fmol.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = fmol.icns; sourceTree = "<group>"; };
 		7BC2E65A5E699A5E5D834CA2 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = /Library/Frameworks/QtCore.framework; sourceTree = "<absolute>"; };
 		8F4CB788D7C955206DC80C00 /* logs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logs.cpp; sourceTree = "<group>"; };
 		9B36DA7E32F0304E780E7972 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = /Library/Frameworks/QtGui.framework; sourceTree = "<absolute>"; };
@@ -51,18 +53,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		05596AB53D8D521C69802C27 /* my_wol */ = {
+		05596AB53D8D521C69802C27 /* Freak_My_Logs */ = {
 			isa = PBXGroup;
 			children = (
+				66B8B25E15FA3A4700D34802 /* fmol.icns */,
 				FB61758D0F0FDA4BA867C3D5 /* Sources */,
 				46E892BBB6BB6952967E0561 /* Temporary Sources */,
 				883D7615C4D2DE3FA1218F12 /* Headers */,
 				7CABE3C80E79AD2B307756D2 /* Sources [qmake] */,
 				EEC299C65D5017EB9DD513B0 /* Sources [UIC] */,
 				ED1E82605DD74B483AF3C982 /* External Frameworks and Libraries */,
-				66655D0515D54A54006C43C8 /* Products */,
+				66B8B25C15FA3A2B00D34802 /* Products */,
 			);
-			name = my_wol;
+			name = Freak_My_Logs;
 			sourceTree = "<group>";
 		};
 		46E892BBB6BB6952967E0561 /* Temporary Sources */ = {
@@ -76,10 +79,10 @@
 			name = "Temporary Sources";
 			sourceTree = "<group>";
 		};
-		66655D0515D54A54006C43C8 /* Products */ = {
+		66B8B25C15FA3A2B00D34802 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				66655D0415D54A54006C43C8 /* my_wol.app */,
+				66B8B25B15FA3A2B00D34802 /* Freak_My_Logs.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,9 +136,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		583CE36341C919110B4E4E25 /* my_wol */ = {
+		7DE435839F94232AA9E0CAEE /* Freak_My_Logs */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "my_wol" */;
+			buildConfigurationList = 17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "Freak_My_Logs" */;
 			buildPhases = (
 				D7BA7D76DAB5DD13389D6332 /* Qt Qmake */,
 				A0A52A2ADF7A1E2A99738674 /* Qt Preprocessors */,
@@ -147,9 +150,9 @@
 			);
 			dependencies = (
 			);
-			name = my_wol;
-			productName = my_wol;
-			productReference = 66655D0415D54A54006C43C8 /* my_wol.app */;
+			name = Freak_My_Logs;
+			productName = Freak_My_Logs;
+			productReference = 66B8B25B15FA3A2B00D34802 /* Freak_My_Logs.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -157,22 +160,19 @@
 /* Begin PBXProject section */
 		91B15E841AA80083484172DE /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = CC82A9286117DFED018F418F /* Build configuration list for PBXProject "my_wol" */;
+			buildConfigurationList = CC82A9286117DFED018F418F /* Build configuration list for PBXProject "Freak_My_Logs" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
 			);
-			mainGroup = 05596AB53D8D521C69802C27 /* my_wol */;
-			productRefGroup = 66655D0515D54A54006C43C8 /* Products */;
+			mainGroup = 05596AB53D8D521C69802C27 /* Freak_My_Logs */;
+			productRefGroup = 66B8B25C15FA3A2B00D34802 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				583CE36341C919110B4E4E25 /* my_wol */,
+				7DE435839F94232AA9E0CAEE /* Freak_My_Logs */,
 			);
 		};
 /* End PBXProject section */
@@ -182,6 +182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B8B25F15FA3A4700D34802 /* fmol.icns in Bundle Resources */,
 			);
 			name = "Bundle Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,7 +198,7 @@
 			name = "Qt Preprocessors";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Users/mathieumoriceau/Documents/workspace/Perso/Freak-my-Logs -f 'my_wol.xcodeproj/qt_preprocess.mak'";
+			shellScript = "make -C /Users/mathieumoriceau/Documents/workspace/Perso/Freak-my-Logs -f 'Freak_My_Logs.xcodeproj/qt_preprocess.mak'";
 		};
 		D7BA7D76DAB5DD13389D6332 /* Qt Qmake */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -207,7 +208,7 @@
 			name = "Qt Qmake";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Users/mathieumoriceau/Documents/workspace/Perso/Freak-my-Logs -f 'my_wol.xcodeproj/qt_makeqmake.mak'";
+			shellScript = "make -C /Users/mathieumoriceau/Documents/workspace/Perso/Freak-my-Logs -f 'Freak_My_Logs.xcodeproj/qt_makeqmake.mak'";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -278,7 +279,7 @@
 					"-L/Library/Frameworks",
 					"-F/Library/Frameworks",
 				);
-				PRODUCT_NAME = my_wol;
+				PRODUCT_NAME = Freak_My_Logs;
 			};
 			name = Debug;
 		};
@@ -287,7 +288,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = my_wol;
+				PRODUCT_NAME = Freak_My_Logs;
 			};
 			name = Release;
 		};
@@ -297,7 +298,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = my_wol;
+				PRODUCT_NAME = Freak_My_Logs;
 			};
 			name = Debug;
 		};
@@ -348,14 +349,14 @@
 					"-L/Library/Frameworks",
 					"-F/Library/Frameworks",
 				);
-				PRODUCT_NAME = my_wol;
+				PRODUCT_NAME = Freak_My_Logs;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "my_wol" */ = {
+		17B3380A4D6A7D415E7F2E1E /* Build configuration list for PBXNativeTarget "Freak_My_Logs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BEC09A62E69C3553534FF35E /* Debug */,
@@ -364,7 +365,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CC82A9286117DFED018F418F /* Build configuration list for PBXProject "my_wol" */ = {
+		CC82A9286117DFED018F418F /* Build configuration list for PBXProject "Freak_My_Logs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4B72B24813252891014BCF61 /* Debug */,
